@@ -87,7 +87,10 @@ def Breakpoints():
 
 
 def get_file_mask():
-    return "*.dd64" if idaapi.get_inf_structure().is_64bit() else "*.dd32"
+    if idaapi.IDA_SDK_VERSION >= 900:
+        return "*.dd32" if ida_ida.inf_is_32bit_exactly() else "*.dd64"
+    else:
+        return "*.dd64" if idaapi.get_inf_structure().is_64bit() else "*.dd32"
 
 
 def do_import():
